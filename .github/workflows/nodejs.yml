@@ -12,13 +12,19 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
+            - uses: actions/cache@v2
+              with:
+                  path: ~/.pnpm-store
+                  key: ${{ runner.os }}-node
+
             - name: 'Use Node.js ${{ matrix.node-version }}'
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v2
               with:
                   node-version: '${{ matrix.node-version }}'
             - name: is this on?
               run: |
-                  npm i
-                  npm run lint
-                  npm run test:svelte
-                  npm run prepare
+                  npm i -g pnpm
+                  pnpm i
+                  pnpm lint
+                  pnpm test:svelte
+                  pnpm prepare
